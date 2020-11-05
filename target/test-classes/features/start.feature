@@ -9,6 +9,6 @@ Feature: Open Initial Page
     Then I get the list of my contacts
 
   Scenario: The list shows Name, Phone and Actions
-    Given I have a contact named "John Doe"
+    Given I have a contact named "Lorem Ipsum"
     When the list is loaded
-    Then I get "John Doe" listed on my contact list
+    Then I get "Lorem Ipsum" listed on my contact list

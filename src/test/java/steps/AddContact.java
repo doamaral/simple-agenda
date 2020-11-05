@@ -1,56 +1,86 @@
 package steps;
 
+import com.github.javafaker.Faker;
 import io.cucumber.java.en.*;
+import org.junit.Assert;
+import pages.HomePage;
+import pages.components.AddContactForm;
 
 public class AddContact {
+
+    HomePage homePage = new HomePage();
+    AddContactForm addContactForm = new AddContactForm();
+    Faker faker = new Faker();
+
+    private String contactName = "";
+    private String telephoneNumber = "";
+
     @Given("I know someone named {string}")
-    public void iKnowSomeoneNamed(String string) {
-        //TODO
+    public void iKnowSomeoneNamed(String contactName) {
+        this.contactName = contactName;
     }
 
     @Given("his telephone number is {string}")
-    public void hisTelephoneNumberIs(String string) {
-        //TODO
+    public void hisTelephoneNumberIs(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
+
     @When("I add him to the list")
     public void iAddHimToTheList() {
-        //TODO
+        if(this.contactName.length() == 0){
+            this.contactName = faker.name().fullName();
+        }
+        if(this.telephoneNumber.length() == 0){
+            this.telephoneNumber = faker.phoneNumber().cellPhone();
+        }
+        homePage.addContactToTheList(this.contactName, this.telephoneNumber);
     }
+
     @Then("I get {string} listed on my contact list")
-    public void iGetListedOnMyContactList(String string) {
-        //TODO
+    public void iGetListedOnMyContactList(String text) {
+        Assert.assertTrue(homePage.searchForTextInList(text));
     }
+
     @Given("I have a contact named {string}")
-    public void iHaveAContactNamed(String string) {
-        //TODO
+    public void iHaveAContactNamed(String contactName) {
+        this.contactName = contactName;
+        homePage.addContactToTheList(contactName, faker.phoneNumber().cellPhone());
     }
     @Then("I get message informing this user already exists")
     public void iGetMessageInformingThisUserAlreadyExists() {
-        //TODO
+        Assert.assertEquals(addContactForm.getPersonAlreadyExistsMsgTxt(), "Pessoa já existe.");
     }
     @Given("I don't fill contact's name and phone number")
     public void iDonTFillContactSNameAndPhoneNumber() {
-        //TODO
+        this.contactName = "";
+        this.telephoneNumber = "";
     }
+
+    @When("I try to add him to the list")
+    public void iTryToAddHimToTheList() {
+        homePage.addContactToTheList(this.contactName, this.telephoneNumber);
+    }
+
     @Then("I get message informing the required fields")
     public void iGetMessageInformingTheRequiredFields() {
-        //TODO
+        Assert.assertFalse(addContactForm.confirmAddContactBtnIsEnabled());
+        Assert.assertTrue(addContactForm.countRequiredFieldsAlertMsg().equals(2));
     }
     @Given("I enter a user with a phone number larger than {int} characters")
-    public void iEnterAUserWithAPhoneNumberLargerThanCharacters(Integer int1) {
-        //TODO
+    public void iEnterAUserWithAPhoneNumberLargerThanCharacters(Integer maxSize) {
+        this.telephoneNumber = faker.lorem().characters(maxSize+1,maxSize+3);
     }
 
     @Then("I get a message informing the phone is to long")
     public void iGetAMessageInformingThePhoneIsToLong() {
-        //TODO
+        Assert.assertTrue(addContactForm.countRequiredFieldsAlertMsg().equals(1));
     }
     @Given("I enter a user with a phone number shorter than {int} characters")
-    public void iEnterAUserWithAPhoneNumberShorterThanCharacters(Integer int1) {
-        //TODO
+    public void iEnterAUserWithAPhoneNumberShorterThanCharacters(Integer minSize) {
+        this.telephoneNumber = faker.lorem().characters(minSize-3,minSize-1);
     }
     @Then("I get a message informing the phone is to short")
     public void iGetAMessageInformingThePhoneIsToShort() {
-        //TODO
+        Assert.assertTrue(addContactForm.countRequiredFieldsAlertMsg().equals(1));
     }
 }

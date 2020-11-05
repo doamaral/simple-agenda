@@ -10,13 +10,13 @@ Feature: Add contacts to the Simple Agenda app
     Then I get "John Doe" listed on my contact list
 
   Scenario: Add an already existing contact
-    Given I have a contact named "John Doe"
+    Given I have a contact named "Foo bar"
     When I add him to the list
     Then I get message informing this user already exists
 
   Scenario: Add an empty contact
     Given I don't fill contact's name and phone number
-    When I add him to the list
+    When I try to add him to the list
     Then I get message informing the required fields
 
   Scenario: Add a contact with more than 12 characters phone number
