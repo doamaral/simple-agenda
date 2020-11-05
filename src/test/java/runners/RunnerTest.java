@@ -6,9 +6,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty", "html:target/cucumber_reports"},
-        //features = "src/test/resources/features",
-        features = "src/test/resources/features/start.feature",
+        plugin = {"pretty", "html:target/cucumber_reports.html"},
+        features = "src/test/resources/features/",
         //if have more tags, separate with comma
         //{"@InProgress, @Ready"}
         glue = "steps",
@@ -16,5 +15,5 @@ import org.junit.runner.RunWith;
         monochrome = true,
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
-public class Runner {
+public class RunnerTest {
 }
