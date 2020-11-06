@@ -8,7 +8,7 @@ Feature: Open Initial Page
     When the list is loaded
     Then I get the list of my contacts
 
-  Scenario: The list shows Name, Phone and Actions
+  Scenario: Contact Listed
     Given I have a contact named "Lorem Ipsum"
     When the list is loaded
     Then I get "Lorem Ipsum" listed on my contact list

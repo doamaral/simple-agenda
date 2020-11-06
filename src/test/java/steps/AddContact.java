@@ -4,12 +4,9 @@ import com.github.javafaker.Faker;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 import pages.HomePage;
-import pages.components.AddContactForm;
-
 public class AddContact {
 
     HomePage homePage = new HomePage();
-    AddContactForm addContactForm = new AddContactForm();
     Faker faker = new Faker();
 
     private String contactName = "";
@@ -48,7 +45,7 @@ public class AddContact {
     }
     @Then("I get message informing this user already exists")
     public void iGetMessageInformingThisUserAlreadyExists() {
-        Assert.assertEquals(addContactForm.getPersonAlreadyExistsMsgTxt(), "Pessoa já existe.");
+        Assert.assertEquals(homePage.getAddContactForm().getPersonAlreadyExistsMsgTxt(), "Pessoa já existe.");
     }
     @Given("I don't fill contact's name and phone number")
     public void iDonTFillContactSNameAndPhoneNumber() {
@@ -63,8 +60,8 @@ public class AddContact {
 
     @Then("I get message informing the required fields")
     public void iGetMessageInformingTheRequiredFields() {
-        Assert.assertFalse(addContactForm.confirmAddContactBtnIsEnabled());
-        Assert.assertTrue(addContactForm.countRequiredFieldsAlertMsg().equals(2));
+        Assert.assertFalse(homePage.getAddContactForm().confirmAddContactBtnIsEnabled());
+        Assert.assertTrue(homePage.getAddContactForm().countRequiredFieldsAlertMsg().equals(2));
     }
     @Given("I enter a user with a phone number larger than {int} characters")
     public void iEnterAUserWithAPhoneNumberLargerThanCharacters(Integer maxSize) {
@@ -73,7 +70,7 @@ public class AddContact {
 
     @Then("I get a message informing the phone is to long")
     public void iGetAMessageInformingThePhoneIsToLong() {
-        Assert.assertTrue(addContactForm.countRequiredFieldsAlertMsg().equals(1));
+        Assert.assertTrue(homePage.getAddContactForm().countRequiredFieldsAlertMsg().equals(1));
     }
     @Given("I enter a user with a phone number shorter than {int} characters")
     public void iEnterAUserWithAPhoneNumberShorterThanCharacters(Integer minSize) {
@@ -81,6 +78,6 @@ public class AddContact {
     }
     @Then("I get a message informing the phone is to short")
     public void iGetAMessageInformingThePhoneIsToShort() {
-        Assert.assertTrue(addContactForm.countRequiredFieldsAlertMsg().equals(1));
+        Assert.assertTrue(homePage.getAddContactForm().countRequiredFieldsAlertMsg().equals(1));
     }
 }
